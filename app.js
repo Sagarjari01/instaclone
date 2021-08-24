@@ -29,16 +29,18 @@ app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 app.use(require('./routes/user'))
 
+mongoose.model("User")
+mongoose.model("Post")
+
 if(process.env.NODE_ENV=="production"){
     app.use(express.static('client/build'))
     const path = require('path')
-    app.get('*',(req,res)=>{
+    app.get("*",(req,res)=>{
         res.sendFile(path.resolve(__dirname,'client','build','index.html'))
     })
 }
 
-mongoose.model("User")
-mongoose.model("Post")
+
 
 app.listen(PORT,  () => {
     console.log('Server is running on PORT', PORT)
