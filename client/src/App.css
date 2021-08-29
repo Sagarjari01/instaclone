@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
+.collection-item{
+  width: 100%;
+}
+
 .text_h5{
   display: inline-block;
   margin-left: 5px;

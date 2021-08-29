@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:"https://res.cloudinary.com/rengoku/image/upload/v1629548647/user_aioban.png"
     },
+    resetToken:String,
+    expireToken:Date,
     followers:[{type:ObjectId, ref:"User"}],
     following:[{type:ObjectId, ref:"User"}]
 })

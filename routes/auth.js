@@ -3,10 +3,18 @@ const router = express.Router()
 const mongoose = require("mongoose")
 const User = mongoose.model("User")
 const bcrypt = require("bcryptjs")
+const crypto = require("crypto")
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('../config/keys')
 const requireLogin = require('../middleware/requireLogin')
+const nodemailer = require("nodemailer")
+const sendGridTransport = require("nodemailer-sendgrid-transport")
 
+const transporter = nodemailer.createTransport(sendGridTransport({
+    auth:{
+        api_key:"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"
+    }
+}))
 // router.get('/',(req, res)=> {
 //     res.send('hello')
 // })
@@ -35,6 +43,12 @@ router.post('/signup', (req,res)=>{
            })
            user.save()
            .then(user=>{
+               transporter.sendMail({
+                   to:user.email,
+                   from:"xiwos74875@kibwot.com",
+                   subject:"Signup Successfully",
+                   html:"<h1>Hello, there..! Welcom to Instagram</h1>"
+               })
                 res.json({message:"added Successfully"})
            })
            .catch(err=>{
@@ -47,6 +61,9 @@ router.post('/signup', (req,res)=>{
    })
     
 })
+
+
+//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
 
 router.post('/signin', (req,res)=>{
     const {email, password} = req.body
@@ -74,4 +91,57 @@ router.post('/signin', (req,res)=>{
     })
     
 })
+
+router.post('/reset-password',(req,res)=>{
+    crypto.randomBytes(32,(err,buffer)=>{
+        if(err){
+            console.log(err)
+        }
+        const token = buffer.toString("hex")
+        User.findOne({email:req.body.email})
+        .then(user=>{
+            if(!user){
+                res.status(422).json({error:"User don't exists with the email"})
+            }
+            user.resetToken = token
+            user.expireToken = Date.now() + 360000
+            user.save()
+            .then(result=>{
+                transporter.sendMail({
+                    to:user.email,
+                    from:"xiwos74875@kibwot.com",
+                    subject:"password reset",
+                    html:`<p>You requested for password reset</p>
+                        <h5>click <a href="http://localhost:3000/reset/${token}">here</a> to reset tht password</h5>`
+                })
+                res.json({message:"check your email"})
+            })
+        })
+    })
+})
+
+router.post('/new-password',(req,res)=>{
+    const sentToken = req.body.token
+    const newpassword = req.body.password
+    User.findOne({resetToken:sentToken,expireToken:{$gt:Date.now()}})
+    .then(user=>{
+        if(!user){
+            res.status(422).json({error:"retry session expired"})
+        }
+        bcrypt.hash(newpassword,12).then(hashedPassword=>{
+            user.password = hashedPassword
+            user.resetToken = undefined
+            user.expireToken = undefined
+            user.save()
+            .then(saveduser=>{
+                res.json({message:"Password updated successfully"})
+            })
+
+        })
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
 module.exports = router

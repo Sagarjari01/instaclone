@@ -10,18 +10,23 @@ import CreatePost from './components/screens/createPost'
 import {reducer,intialState} from './reducer/userReducer'
 import UserProfile from './components/screens/UserProfile'
 import MyFollowingPost from "./components/screens/Myfollowingpost";
+import Reset from './components/screens/Reset'
+import Newpassword from './components/screens/Newpassword'
 export const UserContext = createContext()
 
 const Routing = () => {
   const history = useHistory()
-  const {state, dispatch} = useContext(UserContext)
+  const { dispatch} = useContext(UserContext)
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"))
     if(user){
       dispatch({type:"USER",payload:user})
     }
     else{
-      history.push('/signin')
+      if(!history.location.pathname.startsWith('/reset')){
+        history.push('/signin')
+
+      }
     }
   },[])
   return(
@@ -46,6 +51,12 @@ const Routing = () => {
       </Route>
       <Route path="/myfollowingpost">
         <MyFollowingPost />
+      </Route>
+      <Route exact path="/reset">
+        <Reset />
+      </Route>
+      <Route path="/reset/:token">
+        <Newpassword />
       </Route>
     </Switch>
   )

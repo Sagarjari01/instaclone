@@ -29,7 +29,7 @@ const Profile = () => {
                 // console.log(data)
                 // localStorage.setItem("user",JSON.stringify({...state,pic:data.url}))
                 // dispatch({type:"UPDATEPIC",payload:data.url})
-                fetch('updatepic',{
+                fetch('/updatepic',{
                     method:"put",
                     headers:{
                         "Content-Type":"application/json",
@@ -40,7 +40,7 @@ const Profile = () => {
                     })
                 }).then(res=>res.json())
                 .then(result=>{
-                    console.log(result)
+                    // console.log(result)
                     localStorage.setItem("user",JSON.stringify({...state,pic:result.pic}))
                     dispatch({type:"UPDATEPIC",payload:result.pic})
                 })

@@ -32,7 +32,7 @@ const Profile  = ()=>{
             })
         }).then(res=>res.json())
         .then(data=>{
-            console.log(data)
+            // console.log(data)
             dispatch({type:"UPDATE",payload:{following:data.following,followers:data.followers}})
             localStorage.setItem("user",JSON.stringify(data))
             setProfile((prevState)=>{
@@ -60,7 +60,7 @@ const Profile  = ()=>{
             })
         }).then(res=>res.json())
         .then(data=>{
-            console.log(data)
+            // console.log(data)
             dispatch({type:"UPDATE",payload:{followers:data.followers,following:data.following}})
             localStorage.setItem("user",JSON.stringify(data))
             setProfile((prevState)=>{

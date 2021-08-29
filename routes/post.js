@@ -9,6 +9,7 @@ router.get('/allpost',requireLogin,(req, res)=>{
     Post.find()
     .populate("postedBy","_id name pic")//changed here ==>added pic
     .populate("comments.postedBy","_id name")
+    .sort('-createdAt')
     .then(posts=>{
         res.json({posts})
     })
@@ -21,6 +22,7 @@ router.get('/getsubpost',requireLogin,(req, res)=>{
     Post.find({postedBy:{$in:req.user.following}})
     .populate("postedBy","_id name")
     .populate("comments.postedBy","_id name")
+    .sort('-createdAt')
     .then(posts=>{
         res.json({posts})
     })
@@ -30,7 +32,7 @@ router.get('/getsubpost',requireLogin,(req, res)=>{
 })
 
 router.post('/createpost',requireLogin,(req,res)=>{
-    console.log(req.user)
+    // console.log(req.user)
     const {title,body,pic} = req.body 
     if(!title || !body || !pic){
       return  res.status(422).json({error:"Plase add all the fields"})

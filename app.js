@@ -33,10 +33,10 @@ mongoose.model("User")
 mongoose.model("Post")
 
 
+app.get("/",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+})
   
-    app.get("/",(req,res)=>{
-        res.sendFile(path.resolve(__dirname,'client','build','index.html'))
-    })
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 app.use(require('./routes/user'))
