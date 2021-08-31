@@ -122,19 +122,18 @@ const Home = () => {
                     return(
                         // <span ><img style={{height:"32px",width:"32px"}} src={item.postedBy.pic} /></span>
                         <div className="card home-card" key={item._id}>
-                            <h5 style={{padding:"6px"}}><Link to={item.postedBy._id !== state._id ? "profile/"+item.postedBy._id :  "profile/"}>{item.postedBy.name}</Link> {item.postedBy._id === state._id && <i className="material-icons" 
+                            <h5 style={{padding:"6px"}}>
+                                <Link to={item.postedBy._id !== state._id ? "profile/"+item.postedBy._id :  "profile/"}><img style={{height:"32px",width:"32px",borderRadius:"20px",marginRight:"8px",marginTop:"3px"}} src={item.postedBy.pic} /></Link>
+                                <Link to={item.postedBy._id !== state._id ? "profile/"+item.postedBy._id :  "profile/"}>{item.postedBy.name}</Link> {item.postedBy._id === state._id && <i className="material-icons" 
                             style={{float:"right",cursor:"pointer"}}
                             onClick={()=>deletePost(item._id)}>delete</i> } </h5>
                             <div className="card-image">
                                 <img alt={item.title} src={item.photo} />
                             </div>
                             <div className="card-content">
-                            <i className="material-icons" style={{color:"red"}}>favorite</i>
-                            
-                            
                             {item.likes.includes(state._id)
-                            ? <i className="material-icons" style={{cursor:"pointer"}} onClick={()=>unlikePost(item._id)}>thumb_down</i>
-                            : <i className="material-icons" style={{cursor:"pointer"}} onClick={()=>likePost(item._id)}>thumb_up</i>}
+                            ? <i className="material-icons" style={{color:"red",cursor:"pointer"}} onClick={()=>unlikePost(item._id)}>favorite</i>
+                            : <i className="material-icons" style={{cursor:"pointer"}} onClick={()=>likePost(item._id)}>favorite_border</i>}
                                 <h6>{item.likes.length} likes</h6>
                                 <h5>{item.title}</h5>
                                 <p>{item.body}</p>
