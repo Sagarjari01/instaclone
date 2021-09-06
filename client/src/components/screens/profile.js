@@ -99,7 +99,9 @@ const Profile = () => {
                 {
                     myPics.map((item)=>{
                         return(
-                            <img className="item" alt={item.title} src={item.photo} key={item._id} />
+                            <img className="item" alt={item.title} src={item.photo} key={item._id} onClick={()=>{
+                                //baki
+                            }} />
                         )
                     })
                 }

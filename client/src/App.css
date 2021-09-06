@@ -1,5 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
+@media only screen and (max-width : 480px){
+  .logout_btn{
+    display: none;
+  }
+
+  .home-card{
+    box-shadow: 0px 0px 0px white !important;
+  }
+
+  .brand-logo{
+    left:14% !important;
+  }
+
+  .li_profile{
+    display: none;
+  }
+
+  .li_createPost{
+    display: none;
+  }
+
+  .li_myFollowing{
+    display: none;
+  }
+
+
+}
+
+.li_menu{
+  display: none !important;
+}
+
 .collection-item{
   width: 100%;
 }
