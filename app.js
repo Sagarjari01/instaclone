@@ -31,6 +31,7 @@ app.use(express.json())
 
 mongoose.model("User")
 mongoose.model("Post")
+mongoose.set('useFindAndModify', false);
 
 
 app.get("/",(req,res)=>{
